@@ -1,0 +1,53 @@
+const { Client, GatewayIntentBits, Partials } = require('discord.js');
+require('dotenv').config();
+
+const client = new Client({
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMembers,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.GuildMessageReactions,
+    GatewayIntentBits.MessageContent
+  ],
+  partials: [Partials.Message, Partials.Channel, Partials.Reaction]
+});
+
+client.once('clientReady', () => {
+  console.log(`✅ Connecté en tant que ${client.user.tag}`);
+});
+
+client.on('guildMemberAdd', async (member) => {
+  const channel = member.guild.channels.cache.find(ch => ch.name === '👋・bienvenue');
+  if (!channel) return;
+
+  await channel.send(
+    `👋 Bienvenue ${member} !\n\n` +
+    `Merci de lire le règlement dans https://discord.com/channels/875672123425837066/1485341010614554624 .\n` +
+    `Une fois la lecture terminée, clique sur la réaction ✅ sous le message du règlement pour obtenir le rôle Membre.`
+  );
+});
+
+client.on('messageReactionAdd', async (reaction, user) => {
+  if (user.bot) return;
+
+  try {
+    if (reaction.partial) await reaction.fetch();
+
+    if (reaction.message.channel.name !== '📜・règlement') return;
+    if (reaction.emoji.name !== '✅') return;
+
+    const guild = reaction.message.guild;
+    const member = await guild.members.fetch(user.id);
+    const role = guild.roles.cache.find(r => r.name === 'Membre');
+
+    if (!role) return;
+
+    if (!member.roles.cache.has(role.id)) {
+      await member.roles.add(role);
+    }
+  } catch (error) {
+    console.error('Erreur réaction :', error);
+  }
+});
+
+client.login(process.env.BOT_TOKEN);
