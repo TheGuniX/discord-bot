@@ -49,5 +49,25 @@ client.on('messageReactionAdd', async (reaction, user) => {
     console.error('Erreur réaction :', error);
   }
 });
+client.on('messageReactionRemove', async (reaction, user) => {
+    try {
+        if (reaction.partial) await reaction.fetch();
 
+        if (reaction.message.channel.name !== '📜・règlement') return;
+        if (reaction.emoji.name !== '✅') return;
+
+        const guild = reaction.message.guild;
+        const member = await guild.members.fetch(user.id);
+        const role = guild.roles.cache.find(r => r.name === 'Membre');
+
+        if (!role) return;
+
+        if (member.roles.cache.has(role.id)) {
+            await member.roles.remove(role);
+        }
+
+    } catch (error) {
+        console.error(error);
+    }
+});
 client.login(process.env.BOT_TOKEN);
