@@ -17,7 +17,7 @@ client.once('clientReady', () => {
 });
 
 client.on('guildMemberAdd', async (member) => {
-  const channel = member.guild.channels.cache.find(ch => ch.name === '👋・spawn');
+  const channel = member.guild.channels.cache.find(ch => ch.name === '👋・𝖲pawn');
   if (!channel) return;
 
   await channel.send(
