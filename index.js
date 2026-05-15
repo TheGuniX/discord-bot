@@ -17,13 +17,13 @@ client.once('clientReady', () => {
 });
 
 client.on('guildMemberAdd', async (member) => {
-  const channel = member.guild.channels.cache.find(ch => ch.name === '👋・𝖲pawn');
+  const channel = member.guild.channels.cache.get('1485332617946726561');
   if (!channel) return;
 
   await channel.send(
     `👋 Bienvenue ${member} !\n\n` +
     `Merci de lire le règlement dans https://discord.com/channels/875672123425837066/1485341010614554624 .\n` +
-    `Une fois la lecture terminée, clique sur la réaction ✅ sous le message du règlement pour obtenir le rôle Membre.`
+    `Une fois la lecture terminée, clique sur la réaction ✅ sous le message du règlement pour obtenir le rôle ⚒️ Survivant.`
   );
 });
 
