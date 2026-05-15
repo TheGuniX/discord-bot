@@ -33,12 +33,12 @@ client.on('messageReactionAdd', async (reaction, user) => {
   try {
     if (reaction.partial) await reaction.fetch();
 
-    if (reaction.message.channel.name !== '📜・règlement') return;
+    if (reaction.message.channel.id !== '1485341010614554624') return;
     if (reaction.emoji.name !== '✅') return;
 
     const guild = reaction.message.guild;
     const member = await guild.members.fetch(user.id);
-    const role = guild.roles.cache.find(r => r.name === 'Membre');
+    const role = guild.roles.cache.get('1090651904754847805');
 
     if (!role) return;
 
@@ -53,12 +53,12 @@ client.on('messageReactionRemove', async (reaction, user) => {
     try {
         if (reaction.partial) await reaction.fetch();
 
-        if (reaction.message.channel.name !== '📜・règlement') return;
+        if (reaction.message.channel.id !== '1485341010614554624') return;
         if (reaction.emoji.name !== '✅') return;
 
         const guild = reaction.message.guild;
         const member = await guild.members.fetch(user.id);
-        const role = guild.roles.cache.find(r => r.name === 'Membre');
+        const role = guild.roles.cache.get('1090651904754847805');
 
         if (!role) return;
 
