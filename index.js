@@ -28,6 +28,9 @@ const client = new Client({
 
 client.once('clientReady', () => {
   console.log(`✅ Connecté en tant que ${client.user.tag}`);
+  console.log('TWITCH_CLIENT_ID =', process.env.TWITCH_CLIENT_ID ? 'OK' : 'MANQUANT');
+  console.log('TWITCH_CLIENT_SECRET =', process.env.TWITCH_CLIENT_SECRET ? 'OK' : 'MANQUANT');
+  console.log('🚀 Vérification Twitch démarrée');
 
   setInterval(checkTwitchLive, 300000);
   checkTwitchLive();
@@ -147,6 +150,9 @@ async function checkTwitchLive() {
 
     const isLive = response.data.data.length > 0;
 
+    console.log('Twitch Live =', isLive);
+    console.log('Réponse Twitch =', response.data.data);
+    
     if (isLive && !liveAlreadyAnnounced) {
       const channel = await client.channels.fetch(LIVE_CHANNEL_ID);
 
