@@ -161,35 +161,34 @@ async function checkTwitchLive() {
   const youtubeChannel = await client.channels.fetch(YOUTUBE_CHANNEL_DISCORD);
   const kickChannel = await client.channels.fetch(KICK_CHANNEL_DISCORD);
 
-  if (twitchChannel) {
-    await twitchChannel.send(
-      `🟣 **GuniX est en live sur Twitch !**\n\n` +
-      `https://www.twitch.tv/${TWITCH_CHANNEL}`
-    );
-  }
+if (twitchChannel) {
+  await twitchChannel.send(
+    `🟣 **GuniX est en live sur Twitch !**\n\n` +
+    `https://www.twitch.tv/${TWITCH_CHANNEL}`
+  );
+}
 
-  if (youtubeChannel) {
-    await youtubeChannel.send(
-      `🔴 **GuniX est en direct sur Youtube !**\n\n` +
-      `Retrouvez la chaîne :\n` +
-      `https://www.youtube.com/@thegunix`
-    );
-  }
+if (youtubeChannel) {
+  await youtubeChannel.send(
+    `🔴 **GuniX est en direct sur YouTube !**\n\n` +
+    `Retrouvez la chaîne :\n` +
+    `https://www.youtube.com/@thegunix`
+  );
+}
 
-  if (kickChannel) {
-    await kickChannel.send(
-      `🟢 **GuniX est en stream sur Kick !**\n\n` +
-      `Retrouvez la chaîne :\n` +
-      `https://kick.com/gunix`
-      '@everyone'
-    );
-  }
+if (kickChannel) {
+  await kickChannel.send(
+    `🟢 **GuniX est en stream sur Kick !**\n\n` +
+    `Retrouvez la chaîne :\n` +
+    `https://kick.com/gunix\n\n` +
+    `@everyone`
+  );
+}
 
   console.log('🚀 Annonces Twitch, YouTube et Kick envoyées');
 
   liveAlreadyAnnounced = true;
 }
-    }
 
     if (!isLive) {
       liveAlreadyAnnounced = false;
