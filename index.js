@@ -6,6 +6,9 @@ const LIVE_CHANNEL_ID = '1517534465080033423';
 const YOUTUBE_CHANNEL_DISCORD = '1517862796157780158';
 const KICK_CHANNEL_DISCORD = '1517862446046642256';
 
+const CLIPS_CHANNEL_ID = '1518883249164783616';
+const TWITCH_USER_ID = '655057096';
+
 let liveAlreadyAnnounced = false;
 
 console.log('TWITCH_CLIENT_ID =', process.env.TWITCH_CLIENT_ID ? 'OK' : 'MANQUANT');
@@ -36,6 +39,9 @@ client.once('clientReady', () => {
 
   setInterval(checkTwitchLive, 300000);
   checkTwitchLive();
+
+  setInterval(checkNewClips, 300000);
+checkNewClips();
 });
 // ===== BIENVENUE =====
 client.on('guildMemberAdd', async (member) => {
@@ -196,6 +202,49 @@ if (kickChannel) {
 
   } catch (error) {
     console.error('Erreur Twitch :', error.message);
+  }
+}
+async function checkNewClips() {
+  try {
+
+    console.log('🎬 Vérification des clips...');
+
+    const token = await getTwitchAccessToken();
+
+    const response = await axios.get(
+      'https://api.twitch.tv/helix/clips',
+      {
+        headers: {
+          'Client-ID': process.env.TWITCH_CLIENT_ID,
+          'Authorization': `Bearer ${token}`
+        },
+        params: {
+          broadcaster_id: TWITCH_USER_ID,
+          first: 5
+        }
+      }
+    );
+
+    const clips = response.data.data;
+
+console.log(clips);
+console.log('🎬 Clips trouvés :', clips.length);
+
+if (!clips.length) return;
+
+const newestClip = clips[0];
+
+const clipsChannel = await client.channels.fetch(CLIPS_CHANNEL_ID);
+
+if (clipsChannel) {
+  await clipsChannel.send(
+    `🎬 **Nouveau clip Twitch !**\n\n` +
+    `📌 ${newestClip.title}\n` +
+    `${newestClip.url}`
+  );
+}
+  } catch (error) {
+    console.error('Erreur Clips Twitch :', error.message);
   }
 }
 client.login(process.env.BOT_TOKEN);
