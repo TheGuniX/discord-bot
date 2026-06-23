@@ -158,13 +158,13 @@ async function checkTwitchLive() {
 
       if (channel) {
         await channel.send(
-          `🔴 **GuniX est en live !**\n\n` +
+          `🟣 **GuniX est en live !**\n\n` +
           `Je suis actuellement en stream sur Twitch.\n\n` +
           `https://www.twitch.tv/${TWITCH_CHANNEL}\n\n` +
-          `@everyone`
+          ''
         );
 
-        console.log('🔴 Annonce live envoyée');
+        console.log('🟣 Annonce live envoyée');
       }
 
       liveAlreadyAnnounced = true;
