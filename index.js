@@ -10,6 +10,7 @@ const CLIPS_CHANNEL_ID = '1518883249164783616';
 const TWITCH_USER_ID = '655057096';
 
 let liveAlreadyAnnounced = false;
+let lastClipId = null;
 
 console.log('TWITCH_CLIENT_ID =', process.env.TWITCH_CLIENT_ID ? 'OK' : 'MANQUANT');
 console.log('TWITCH_CLIENT_SECRET =', process.env.TWITCH_CLIENT_SECRET ? 'OK' : 'MANQUANT');
@@ -233,6 +234,10 @@ console.log('🎬 Clips trouvés :', clips.length);
 if (!clips.length) return;
 
 const newestClip = clips[0];
+
+if (newestClip.id === lastClipId) return;
+
+lastClipId = newestClip.id;
 
 const clipsChannel = await client.channels.fetch(CLIPS_CHANNEL_ID);
 
